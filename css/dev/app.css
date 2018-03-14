@@ -1,0 +1,34 @@
+.print-break {
+    page-break-before: always;
+}
+
+
+img{
+    max-width: 100%;
+    display: block;
+}
+
+.bg-even{
+    background-color: #eee;
+}
+
+.sub, .starter{
+    cursor: pointer;
+    border: solid 1px;
+}
+
+.sub:hover, .starter:hover{
+    background-color: #eee;
+}
+
+.text-male{
+    color: #1E90FF;
+}
+
+.text-female, .text-pink{
+    color: #FF69B4;
+}
+
+.text-hotpink{
+    color: #FF1493 !important;
+}
