@@ -1,19 +1,19 @@
 
 <script>
-    $(document).ready(function(){
+	$(document).ready(function(){
 
-    	var redirect = function(){
-    		window.location.href = '<?= $_SERVER['HTTP_REFERER'] ?>';
-        };
+		var redirect = function(){
+			window.location.href = '<?= $GLOBALS['app']->redirect ?>';
+		};
 
-        var oForm = {
-            formId: 'form-login',
-            doOnSuccess: redirect
-        };
+		var oForm = {
+			formId: 'form-login',
+			doOnSuccess: redirect
+		};
 
-        var f = new JVForm(oForm);
+		var f = new JVForm(oForm);
 
-    });
+	});
 </script>
 
 <div class="container-fluid">
@@ -25,7 +25,7 @@
                 </h1>
                 <div class="card-body">
 
-                    <form id="form-login" action="/login/doLogin" method="post" data-type="json" onsubmit="return false;"> <!--  onsubmit="return doLogin();" -->
+                    <form id="form-login" action="/login/doLogin" method="post" data-type="json" onsubmit="return false;" > <!--  onsubmit="return doLogin();" -->
 
                         <div class="form-group">
                             <label>Email</label>
@@ -37,7 +37,14 @@
                             <input type="password" class="form-control" name="password" id="password" autocomplete="current-password" />
                         </div>
 
-                        <div class="row">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="rememberMe" name="rememberMe">
+                            <label class="form-check-label-off" for="rememberMe">
+                                Remember Me
+                            </label>
+                        </div>
+
+                        <div class="row mt-3">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                 <button class="btn btn-primary btn-block" id="btn-submit">
                                     Submit
@@ -57,3 +64,4 @@
         </div>
     </div>
 </div>
+
