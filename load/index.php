@@ -29,3 +29,14 @@ foreach($controllerFiles as $file){
     }
 }
 
+// load managers
+
+$controllerDir = $dir . '/manager/';
+$controllerSort 	= defined('SCANDIR_SORT_ASCENDING') ? SCANDIR_SORT_ASCENDING : 2;
+$controllerFiles = scandir($controllerDir, $controllerSort);
+foreach($controllerFiles as $file){
+    if($file !== '.' && $file !== '..'){
+        require($controllerDir . $file);
+    }
+}
+
