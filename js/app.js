@@ -1,5 +1,29 @@
 // TODO: break all of thes JS files into separate files, and then bind to JV or Jiggy OR something
 
+var module = {
+	property: "value",
+	property2: function(){
+	
+	}
+};
+
+var revealingModule = (function(){
+
+	var privateVar = "";
+	var publicVar = "";
+	
+	function someFunc(){
+	
+	}
+	
+	return {
+		publicCall: someFunc,
+		otherCall: someFunc
+	}
+	
+})();
+
+
 //
 // ALERT
 //
@@ -29,12 +53,10 @@ var JVAlert = function(obj){
 	};
 	
 	this.showAlert = function(msg){
-		console.log('showAlert', this.elementId, msg);
 		$('#' + this.elementId).append("<div class='mt-3 alert " + this.alertClass +"'>" + msg + "</div>")
 	};
 	
 	this.hideAlert = function(){
-		console.log('hideAlert');
 		$('#' + this.elementId).find('.alert').remove();
 	};
 	
@@ -44,12 +66,12 @@ var JVAlert = function(obj){
 	
 	this.init();
 	
-	return {
-		elementId: this.elementId,
-		showAlert: this.showAlert,
-		hideAlert: this.hideAlert,
-		setSuccess: this.setSuccess
-	}
+	// return {
+	// 	elementId: this.elementId,
+	// 	showAlert: this.showAlert,
+	// 	hideAlert: this.hideAlert,
+	// 	setSuccess: this.setSuccess
+	// }
 	
 };
 
@@ -59,29 +81,44 @@ var JVAlert = function(obj){
 
 var JVAjax = function(obj){
 	
+	console.log('JVAjax Constructor', obj);
+	
+	this.url = obj.url;
+	this.method = obj.method;
+	this.dataType = obj.dataType;
 	this.data = null;
 	
 	this.setData = function(data){
-		this.data = data;
+		var o = {};
+		data.map(function(obj, idx){
+			o[obj.name] = obj.value;
+		});
+		this.data = o;
 	};
 	
 	this.submit = function(){
-		
+		console.log('submitting', this);
+		var self = this;
 		return $.ajax({
-			url: obj.url,
-			action: obj.action,
-			dataType: obj.dataType,
-			data: this.data
+			url: self.url,
+			method: self.method,
+			dataType: self.dataType,
+			data: self.data
 		}).done(function(res){
+			// console.log('submit done', res);
 			return res;
 		});
-		
 	};
 	
-	return {
-		submit: this.submit,
-		setData: this.setData
-	}
+	console.log('JVAjax created:', this);
+	
+	// return {
+	// 	url: this.url,
+	// 	submit: this.submit,
+	// 	setData: this.setData
+	// }
+	
+	// return this;
 	
 };
 
@@ -94,14 +131,11 @@ var JVLoading = function(){
 	this.isLoading = false;
 	
 	this.setLoading = function(isLoading){
-		console.log('JVLoading', this);
 		this.isLoading = isLoading;
-		console.log('this', this);
 		this.render();
 	};
 	
 	this.render = function(){
-		console.log('render', this.isLoading);
 		if(this.isLoading){
 			this.showLoading();
 		}else{
@@ -146,12 +180,12 @@ var JVLoading = function(){
 		$('body').find('.jv-loading-overlay').remove();
 	};
 	
-	return {
-		setLoading: this.setLoading,
-		render: this.render,
-		showLoading: this.showLoading,
-		removeLoading: this.removeLoading
-	}
+	// return {
+	// 	setLoading: this.setLoading,
+	// 	render: this.render,
+	// 	showLoading: this.showLoading,
+	// 	removeLoading: this.removeLoading
+	// }
 	
 };
 
@@ -186,10 +220,8 @@ var JVForm = function(obj){
 	// TODO: ???
 	this.redirect = ''; // where to go next
 	
-	
-	
 	this.init = function(){
-		
+		console.log('init', this);
 		var self = this;
 		
 		// notify developer of issues
@@ -204,12 +236,16 @@ var JVForm = function(obj){
 		}
 		
 		// set the ajax object
-		this.JVAjax = new JVAjax({
+		var oJVAjax = {
 			url: $(this.form).attr('action'),
 			method: $(this.form).attr('method'),
 			dataType: $(this.form).data('type'),
 			data: null
-		});
+		};
+		
+		console.log('oJVAjax pass to constructor', oJVAjax);
+		
+		this.JVAjax = new JVAjax(oJVAjax);
 		
 		// set the loading object
 		this.JVLoading = new JVLoading();
@@ -222,20 +258,37 @@ var JVForm = function(obj){
 		this.btnSubmit = this.form.find('.btn-primary');
 		
 		// handle click of submit button
-		this.btnSubmit.click(function(){
-			
-			self.JVLoading.setLoading(true);
-			
-			self.JVAlert.hideAlert();
-			
-			self.JVAjax.setData( $(self.form).serialize() );
-			
-			var clickSubmit = self.JVAjax.submit();
-			
-			clickSubmit.done(function(res){
-				self.res = res;
-				self.AjaxDone();
-			});
+		this.btnSubmit.click(function(e){
+			// e.preventDefault();
+			// e.stopPropagation();
+			self.doSubmit(e);
+		});
+		
+	};
+	
+	this.doSubmit = function(e){
+		// e.preventDefault();
+		// e.stopPropagation();
+		var self = this;
+		console.log('-=submit=-');
+		self.submit();
+	};
+	
+	this.submit = function(){
+		var self = this;
+		self.JVLoading.setLoading(true);
+		self.JVAlert.hideAlert();
+		
+		console.log('data to set', $(self.form).serializeArray());
+		
+		self.JVAjax.setData( $(self.form).serializeArray() );
+		var clickSubmit = self.JVAjax.submit();
+		console.log('clickSubmit', self.JVAjax);
+		
+		clickSubmit.done(function(res){
+			// console.log('clickSubmit done', res);
+			self.res = res;
+			self.AjaxDone(res);
 		});
 		
 	};
@@ -248,9 +301,9 @@ var JVForm = function(obj){
 		return this.success;
 	};
 	
-	this.AjaxDone = function(){
-		console.log('AjaxDone, this.res:', this.res);
-		this.JVAlert.setSuccess(this.res.success).showAlert(this.res.message);
+	this.AjaxDone = function(res){
+		// console.log('AjaxDone, this.res:', this.res);
+		this.JVAlert.setSuccess(res.success).showAlert(res.message);
 		this.JVLoading.setLoading(false);
 		
 		if(this.res.success){
@@ -261,10 +314,11 @@ var JVForm = function(obj){
 	
 	this.init();
 	
-	return {
-		submit: this.submit,
-		getMessage: this.getMessage,
-		getSuccess: this.getSuccess
-	}
+	// return {
+	// 	submit: this.submit,
+	// 	doSubmit: this.doSubmit,
+	// 	getMessage: this.getMessage,
+	// 	getSuccess: this.getSuccess
+	// }
 	
 };
