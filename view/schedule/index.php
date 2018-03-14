@@ -1,3 +1,9 @@
+<?php
+    $__isAdminView = false;
+    $__schedule = $GLOBALS['app']->rc->schedule;
+    $__attendance = $GLOBALS['app']->rc->attendance;
+    $__now = new DateTime();
+?>
 
 
 <div class="container-fluid">
@@ -8,7 +14,9 @@
                    Schedule
                 </h1>
                 <div class="card-body">
-                    This is the schedule page.
+
+                    <?php include('view/partial/schedule.php') ?>
+
                 </div>
             </div>
         </div>
