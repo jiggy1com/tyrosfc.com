@@ -27,8 +27,10 @@ class Router {
     function __construct()
     {
         $this->uri = $_SERVER['REQUEST_URI'];
+//        $this->routes = new Routes();
         $this->setPostVars();
         $this->setGetVars();
+        $this->getRoute($this->uri);
     }
 
     public function setRoutes($routes){
@@ -44,10 +46,6 @@ class Router {
         $arrReturn = [];
 
         foreach ($this->routes as $route => $controllerMethod){
-
-//            echo "route: " . var_dump($route);
-//            echo "controllerMethod: " . var_dump($controllerMethod);
-//            echo "<hr>";
 
             $dynamicRoute = strpos($route, ':');
 
@@ -66,7 +64,7 @@ class Router {
 
                         // match the array elements
 
-                        $buildRouteRegEx .= (strpos($routePart, ':') === false ?  $routePart : '[a-zA-Z0-9-]+');
+                        $buildRouteRegEx .= (strpos($routePart, ':') === false ?  $routePart : '[a-zA-Z0-9-.]+');
 
                         if($arrRouteLen > $cnt){
                             $buildRouteRegEx .= '\/';
@@ -125,7 +123,6 @@ class Router {
             if(strpos($param, ':') !== false){
                 $param = substr($param, 1);
                 $this->setParam($param, $uriArray[$key]);
-//                $this->params[$param] = $uriArray[$key];
             }
         }
     }
