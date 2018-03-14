@@ -3,11 +3,12 @@
     <!---->
     <div class="container-fluid ">
         <div class="row align-items-center justify-content-md-center">
-            <div class="col-xs-auto mt-3 mb-3">
-                <!--
-                <img src="https://media.licdn.com/media/AAEAAQAAAAAAAATbAAAAJDM4NDk1NzQxLTk5NDAtNDdlYi05OGNlLWIzOTZjOTIxNmQwNQ.jpg" />
-                -->
-                <img src="/img/header/tyros-logo.png" width="150" class="d-block m-auto" />
+            <div class="col-12 col-xs-auto mt-3 mb-3">
+                <a href="/">
+                    <!-- TODO: put this back -->
+                    <img src="/img/header/tyros-logo.png" width="150" class="d-block m-auto" />
+
+                </a>
             </div>
             <!--
             <div class="col">
@@ -53,6 +54,11 @@
                 <?php endif; ?>
 
                 <?php if( $GLOBALS['app']->isLoggedIn ): ?>
+                    <?php if( $GLOBALS['app']->cookies['isAdmin'] == 1 ): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Admin</a>
+                        </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/profile/edit">Edit Profile</a>
                     </li>
