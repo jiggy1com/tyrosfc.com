@@ -2,8 +2,6 @@
 
 class MySQL extends Config {
 
-
-
     public $conn;
     private $queryObject; // the initial mysqli query object
     private $query; // the query to run
@@ -17,10 +15,20 @@ class MySQL extends Config {
     private $object;
 
     private $results;
+    private $error;
+    private $mysqliError;
 
     function __construct()
     {
         $this->conn = new mysqli(self::MYSQL_HOST, self::MYSQL_USERNAME, self::MYSQL_PASSWORD, self::MYSQL_DATABASE);
+    }
+
+    private function setError(){
+        $this->error = $this->conn->error;
+    }
+
+    public function getError(){
+        return $this->error;
     }
 
     public function setQuery($query){
@@ -33,7 +41,61 @@ class MySQL extends Config {
         return $this;
     }
 
-    function runQuery(){
+    public function runCreate(){
+        $result = $this->conn->query($this->query);
+
+        if(!$result){
+            $this->setError();
+        }
+
+        return $result;
+    }
+
+    public function runRead(){
+        $this->queryObject = $this->conn->query($this->query);
+
+        // set the fields
+        $this->setFields($this->queryObject->fetch_fields());
+
+        // set the results object based on how you want the data returned
+        if($this->returnAs === 'all'){
+            $this->results = $this->queryObject->fetch_all();
+        }else if($this->returnAs === 'array'){
+            $this->results = $this->queryObject->fetch_array();
+        }else if($this->returnAs === 'assoc'){
+            $this->results = $this->queryObject->fetch_assoc();
+        }else if($this->returnAs === 'object'){
+            $this->results = $this->queryObject->fetch_object();
+        }else{
+            $this->results = $this->formatResultsAsArrayOfObjects( $this->queryObject );
+        }
+
+        return $this->results;
+    }
+
+    public function runUpdate(){
+
+        $result = $this->conn->query($this->query);
+
+        if(!$result){
+            $this->setError();
+        }
+
+        return $result;
+    }
+
+    public function runDelete(){
+        $result = $this->conn->query($this->query);
+
+        if(!$result){
+            $this->setError();
+        }
+
+        return $result;
+    }
+
+    function runQuery()
+    {
 
         $this->queryObject = $this->conn->query($this->query);
 
@@ -69,7 +131,6 @@ class MySQL extends Config {
 
             array_push($arrayOfObjects, $obj);
         }
-
         return $arrayOfObjects;
     }
 
