@@ -8,6 +8,9 @@ class ForgotPasswordController extends ApplicationController {
     }
 
     public function index(){
+        if($this->isLoggedIn){
+            header('Location: /');
+        }
         $this->view = 'forgot-password/index';
         return $this;
     }
@@ -19,11 +22,25 @@ class ForgotPasswordController extends ApplicationController {
 
         // query
         $email = $this->router->getVar('email');
-        $this->rc->results = $this->mysql->setQuery("select email from roster where email = '$email'")->runQuery();
+        $results = $this->mysql->setQuery("select email, password from roster where email = '$email'")->runQuery();
 
         // handle the login
         $this->rc->success = true;
-        $this->rc->message = 'If your email address was found you will receive an email shortly. This is not actually sending an email yet ... update this message after the email is working!';
+        $this->rc->message = 'If your email address was found you will receive an email shortly.';
+
+        // decide to send the forgot password email
+        $found = count($results);
+
+        if($found){
+            $data = $results[0];
+            $data->textMsg = 'Your password is: ' . $data->password;
+            $data->htmlMsg = 'Your password is: ' . $data->password;
+            $m = new MailManager();
+            $resp = $m->sendForgotPassword($data);
+            if($resp !== true){
+                $this->rc->message = $resp;
+            }
+        }
 
         return $this;
     }
