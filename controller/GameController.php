@@ -19,12 +19,12 @@ class GameController extends ApplicationController {
 
     }
 
-    public function test(){
-        $this->rc->test = 1;
-        $this->router->setParam('game', 'index');
-        $this->view = 'game/test';
-        return $this;
-    }
+//    public function test(){
+//        $this->rc->test = 1;
+//        $this->router->setParam('game', 'index');
+//        $this->view = 'game/test';
+//        return $this;
+//    }
 
 }
 
