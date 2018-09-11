@@ -1,3 +1,5 @@
+<?php
+/* @Deprecated
 <script>
 	$(document).ready(function(){
 
@@ -106,3 +108,5 @@
         </div>
     </div>
 </div>
+ */
+?>
