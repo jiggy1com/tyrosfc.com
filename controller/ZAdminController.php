@@ -88,6 +88,17 @@ class ZAdminController extends ApplicationController {
             $result = $s->updateUserAttendance($__rosterId, $__uid, $__isGoing);
 
             if($result){
+
+                // send email notification
+                $m = new MySQLHelper();
+                $user = $m->getRosterById($__rosterId);
+
+                $schedule = $s->getSchedule();
+                $game = $s->getGameFromSchedule($schedule, $__uid);
+
+                $m = new MailManager();
+                $m->sendAttendanceUpdate($game, $user[0], $__isGoing);
+
                 $this->rc->success = true;
                 $this->rc->message = 'Attendance successfully updated.';
             }else{
@@ -96,6 +107,66 @@ class ZAdminController extends ApplicationController {
             }
 
             return $this;
+        }
+    }
+
+    public function remindBySMS(){
+        if(!$this->isAdmin()){
+            return $this->setNextRoute('/login');
+        }else{
+            // force a json response
+            $this->router->setVar('isAjax', 1);
+
+            $__uid = $this->router->getParam('uid');
+            $__rosterId = $this->router->getParam('rosterId');
+
+            $m = new MySQLHelper();
+            $q = $m->getRosterById($__rosterId);
+
+            if(isset($q[0]) && !empty($q[0]->phone)){
+                $__smsMessage = "Please update your attendance at http://www.tyrosfc.com/schedule/game/$__uid/attendance";
+                $__num = $q[0]->phone;
+                $t = new TwilioAPI();
+                $t->setTo($__num)->setMessage($__smsMessage)->send();
+
+                // TODO: THIS ASSUMES THE REQUEST WAS SUCCESSFUL, actually check the response and return accordingly
+                $this->rc->success = true;
+                $this->rc->message = "SMS successfully sent.";
+            }else{
+                $this->rc->success = false;
+                $this->rc->message = "User has no number.";
+            }
+
+            $this->view = 'admin/index';
+            return $this;
+        }
+    }
+
+    public function remindByEmail(){
+        if(!$this->isAdmin()){
+            return $this->setNextRoute('/login');
+        }else{
+            // force a json response
+            $this->router->setVar('isAjax', 1);
+
+            $__uid = $this->router->getParam('uid');
+            $__rosterId = $this->router->getParam('rosterId');
+
+            $m = new MySQLHelper();
+            $user = $m->getRosterById($__rosterId)[0];
+
+            $s = new Schedule();
+            $__schedule = $s->getSchedule();
+            $game = $s->getGameFromSchedule($__schedule, $__uid);
+
+            $mailManager = new MailManager();
+            $result = $mailManager->sendAttendanceReminder($game, $user);
+
+            $this->rc->success = $result;
+            $this->rc->message = $result ? 'Email successfully sent.' : 'Email was not sent.';
+
+            return $this;
+
         }
     }
 
@@ -304,6 +375,7 @@ class ZAdminController extends ApplicationController {
     }
 
     // admin/lineup
+
     public function lineup(){
 
         if(!$this->isAdmin()){
@@ -372,10 +444,6 @@ class ZAdminController extends ApplicationController {
             }
         }
     }
-
-
-
-
 
 //    public function importRoster(){
 //
