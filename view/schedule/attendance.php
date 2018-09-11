@@ -91,16 +91,13 @@ foreach($__teamAttendance as $row){
                             <?= $__gameDate->datetime->format('F d, Y') ?> at
                             <?= $__gameDate->datetime->format('g:i A') ?>
                         </div>
-                        <div class="mb-3">
+                        <div class="">
                             <?= $__home ?> vs
                             <?= $__away ?> at
                             <a href="<?= Locations::getGoogleMapLink( trim($__gameDate->location) ) ?>/" target="_blank">
                                 <?= $__gameDate->location ?>
                                 (<?= Locations::getFieldSurface($__gameDate->location) ?>)
                             </a>
-                        </div>
-                        <div>
-                            Please be patient while submitting as there may be long delay while authenticating an email notification.
                         </div>
                     </div>
 
