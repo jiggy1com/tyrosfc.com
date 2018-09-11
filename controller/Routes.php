@@ -52,15 +52,21 @@ class Routes {
         $this->routes['/admin/schedule'] = ['ZAdminController', 'schedule'];
         $this->routes['/admin/schedule/game/:uid/attendance'] = ['ZAdminController', 'game'];
         $this->routes['/admin/schedule/game/:uid/attendance/update'] = ['ZAdminController', 'gameUpdateAttendance'];
+        $this->routes['/admin/schedule/game/:uid/attendance/remind/sms/:rosterId'] = ['ZAdminController', 'remindBySMS'];
+        $this->routes['/admin/schedule/game/:uid/attendance/remind/email/:rosterId'] = ['ZAdminController', 'remindByEmail'];
         $this->routes['/admin/schedule/game/:uid/lineup'] = ['ZAdminController', 'lineup'];
         $this->routes['/admin/schedule/game/:uid/lineup/update'] = ['ZAdminController', 'updateLineup'];
         $this->routes['/admin/schedule/game/:uid/lineup/print'] = ['ZAdminController', 'printLineup'];
+
+
 
         $this->routes['/admin/email'] = ['ZAdminController', 'email'];
         $this->routes['/admin/email/send'] = ['ZAdminController', 'emailSend'];
 
         $this->routes['/admin/sms'] = ['ZAdminController', 'sms'];
         $this->routes['/admin/sms/send'] = ['ZAdminController', 'smsSend'];
+
+
 
 
 
