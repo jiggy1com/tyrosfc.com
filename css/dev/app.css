@@ -1,7 +1,9 @@
 .print-break {
     page-break-before: always;
 }
-
+body.print{
+    font-size: 1.3rem;
+}
 
 img{
     max-width: 100%;
@@ -27,6 +29,7 @@ img{
 
 .text-female, .text-pink{
     color: #FF69B4;
+    font-weight: bold;
 }
 
 .text-hotpink{
