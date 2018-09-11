@@ -19,7 +19,7 @@
     <script src="/js/Lineup.js"></script>
     <script src="/js/Game.js"></script>
 </head>
-<body>
+<body class="print">
 
 <?php include('./view/layout/interior.php'); ?>
 
