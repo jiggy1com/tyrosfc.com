@@ -2,7 +2,7 @@
 
 class Schedule {
 
-    const SCHEDULE_ICS = 'http://tmsdln.com/q07h';
+    const SCHEDULE_ICS = 'http://tmsdln.com/tnv1';
 
     const IS_GOING = "Is Going";
     const IS_NOT_GOING = 'Is Not Going';
@@ -102,13 +102,24 @@ class Schedule {
     public static function getUserAttendanceForGame($user, $game, $attendance){
         $__rosterId = $user->id;
         $__uid = $game->uid;
-        $isGoing = null;
+        $isGoingFlag = null;
         foreach($attendance as $obj){
             if($obj->rosterId == $__rosterId && $obj->uid === $__uid){
-                $isGoing = $obj->isGoing;
+                $isGoingFlag = $obj->isGoing;
             }
         }
-        return $isGoing;
+
+        if($isGoingFlag === null){
+            $ret = null;
+        }else if($isGoingFlag === "1"){
+            $ret = true;
+        }else if($isGoingFlag === "0"){
+            $ret = false;
+        }else{
+            $ret = null;
+        }
+
+        return $ret;
     }
 
     public static function setUserAttendanceForGame($rosterId, $uid, $isGoing){
