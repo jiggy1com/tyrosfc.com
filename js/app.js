@@ -38,7 +38,6 @@ var JVAlert = function(obj){
 	this.alertClass = null;
 	
 	this.setSuccess = function(status){
-		console.log('setSuccess', status);
 		if(status === true){
 			this.alertClass = 'alert-success';
 		}else if(status === false){
@@ -97,7 +96,6 @@ var JVAjax = function(obj){
 	};
 	
 	this.submit = function(){
-		console.log('submitting', this);
 		var self = this;
 		return $.ajax({
 			url: self.url,
@@ -255,7 +253,7 @@ var JVForm = function(obj){
 		});
 		
 		// set submit button
-		this.btnSubmit = this.form.find('.btn-primary');
+		this.btnSubmit = this.form.find('.btn-primary').last();
 		
 		// handle click of submit button
 		this.btnSubmit.click(function(e){
