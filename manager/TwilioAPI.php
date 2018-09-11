@@ -45,4 +45,6 @@ class TwilioAPI {
         $this->sms['body'] = '';
     }
 
+    // messages to send (move these to a helper)
+
 }
