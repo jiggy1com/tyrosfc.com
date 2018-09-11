@@ -20,6 +20,8 @@
         </div>
     </div>
 
+    <?php $__isCurrentGame = false; ?>
+
     <?php foreach($__schedule as $key => $obj): ?>
         <?php
 
@@ -30,9 +32,13 @@
         $date = $obj->datetime->format("F d, Y");
         $time = $obj->datetime->format('g:i A');
 
+        if(!$__isCurrentGame){
+            $__isCurrentGame = $__now->getTimestamp() < $obj->datetime->getTimeStamp();
+        }
+
         ?>
-        <div class="row bg-dark mt-5">
-            <div class="col-12 pt-3 pb-3">
+        <div class="row bg-dark mt-5 <?= $__isCurrentGame ? 'current-game' : '' ?>">
+            <div class="col-12 pt-3 pb-3 week">
                 Week <?= $key+1 ?> <!--(<?= $obj->uid ?>)-->
             </div>
         </div>
@@ -53,7 +59,6 @@
                 </a>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3">
-
 
                 <?php if( $__now->getTimestamp() < $obj->datetime->getTimeStamp()): ?>
 
@@ -94,9 +99,70 @@
                         }
 
                         ?>
-                        <a href="/schedule/game/<?= $obj->uid ?>/attendance" class="btn <?= $__isGoingClass ?> btn-block">
-                            <?= $__isGoingText ?>
-                        </a>
+
+                        <form id="form-set-attendance-<?= $key ?>"
+                            class="form-set-attendance"
+                            action="/schedule/game/update-game-attendance"
+                            method="post"
+                            data-type="json"
+                            onsubmit="return false;">
+
+                            <div class="dropdown">
+                                <button class="btn <?= $__isGoingClass ?> btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <?= $__isGoingText ?>
+                                </button>
+                                <div class="dropdown-menu btn-block" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item text-success" href="javascript:void(0)" data-value="1">Going</a>
+                                    <a class="dropdown-item text-danger" href="javascript:void(0)" data-value="0">Not Going</a>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="uid" value="<?= $obj->uid ?>">
+                            <input type="hidden" name="isGoing" value="" class="isGoing">
+                            <button class="btn btn-primary btn-submit d-none">
+                                Submit
+                            </button>
+                        </form>
+                        <script>
+                            $(document).ready(function(){
+                            	var formId = 'form-set-attendance-' + <?= $key ?>;
+                            	var form = $('#' + formId);
+                            	var btn = form.find('.btn').first();
+
+                            	var doOnSuccess = function(){
+
+									var v = form.find('.isGoing');
+
+                            		btn.removeClass('btn-primary')
+									.removeClass('btn-success')
+									.removeClass('btn-danger')
+									.removeClass('btn-warning');
+
+                            		if(v.val() === '0'){
+                            			btn.addClass('btn-danger');
+                            			btn.text('Not Going');
+                                    }else if(v.val() === '1'){
+                            			btn.addClass('btn-success');
+                            			btn.text('Going');
+                                    }
+
+                                };
+
+								var oForm = {
+									formId: formId,
+                                    doOnSuccess: doOnSuccess
+								};
+
+								var f = new JVForm(oForm);
+
+								form.find('.dropdown-item').click(function(){
+									console.log('click');
+									form.find('.isGoing').val( $(this).data('value'));
+									form.find('.btn-submit').trigger('click');
+                                });
+                            });
+                        </script>
+
                     <?php endif; ?>
 
                 <?php else:?>
@@ -109,3 +175,19 @@
     <?php endforeach; ?>
 
 </div>
+
+<script>
+    $(document).ready(function(){
+		var currentGame = $('.current-game').first();
+		var offset = currentGame.offset();
+    	currentGame.find('.week').text(currentGame.text() + ' (Next Game)');
+		$('body, html').scrollTop( offset.top );
+    });
+</script>
+
+<?php
+# spacing for scrolling
+for($i=0;$i<20;$i++){
+    echo "<p>&nbsp;</p>";
+}
+?>
