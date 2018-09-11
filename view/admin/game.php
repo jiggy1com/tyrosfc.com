@@ -1,4 +1,5 @@
 <?php
+
 $__app = $GLOBALS['app'];
 $__uid = $app->router->getParam('uid');
 $__game = $__app->rc->game;
@@ -49,8 +50,6 @@ $__away = $__teams[1];
                         </div>
                     </div>
 
-                    <h1>Please note that not all the buttons on this page are wired up. Do not expect desired results until this message goes away, but you can play around.</h1>
-
                     <?php foreach($__roster as $key => $user): ?>
 
                         <?php $__isGoing = Schedule::getUserAttendanceForGame($user, $__game, $__attendance); ?>
@@ -80,19 +79,127 @@ $__away = $__teams[1];
                             <div class="col-12 col-md-8 mb-3">
                                 <div class="row">
                                     <div class="col-12 col-md-6 col-xl-4 mb-3">
+                                        <!-- old
                                         <button class="btn btn-primary btn-block btn-change-attendance">
                                             Change Attendance
                                         </button>
+                                        -->
+                                        <?php
+                                        if($__isGoing === null){
+                                            $__isGoingClass = 'btn-primary';
+                                        }else if($__isGoing === true){
+                                            $__isGoingClass = 'btn-success';
+                                        }else if($__isGoing === false){
+                                            $__isGoingClass = 'btn-danger';
+                                        }else{
+                                            $__isGoingClass = 'btn-warning';
+                                        }
+
+                                        if($__isGoing === null){
+                                            $__isGoingText = 'Set Attendance';
+                                        }else if($__isGoing === true){
+                                            $__isGoingText = 'Going';
+                                        }else if($__isGoing === false){
+                                            $__isGoingText = 'Not Going';
+                                        }else{
+                                            $__isGoingText = "Something F'd Up!";
+                                        }
+
+                                        ?>
+                                        <form id="form-set-attendance-<?= $key ?>"
+                                            class="form-set-attendance"
+                                            action="/admin/schedule/game/<?= $__uid ?>/attendance/update"
+                                            method="post"
+                                            data-type="json"
+                                            onsubmit="return false;">
+
+                                            <div class="dropdown">
+                                                <button class="btn <?= $__isGoingClass ?> btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <?= $__isGoingText ?>
+                                                </button>
+                                                <div class="dropdown-menu btn-block" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item text-success" href="javascript:void(0)" data-value="1">Going</a>
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)" data-value="0">Not Going</a>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" name="rosterId" value="<?= $user->id ?>">
+                                            <input type="hidden" name="isGoing" value="" class="isGoing">
+                                            <button class="btn btn-primary btn-submit d-none">
+                                                Submit
+                                            </button>
+                                        </form>
+
+                                        <script>
+											$(document).ready(function(){
+												var formId = 'form-set-attendance-' + <?= $key ?>;
+												var form = $('#' + formId);
+												var btn = form.find('.btn').first();
+
+												var doOnSuccess = function(){
+
+													var v = form.find('.isGoing');
+
+													btn.removeClass('btn-primary')
+													.removeClass('btn-success')
+													.removeClass('btn-danger')
+													.removeClass('btn-warning');
+
+													if(v.val() === '0'){
+														btn.addClass('btn-danger');
+														btn.text('Not Going');
+													}else if(v.val() === '1'){
+														btn.addClass('btn-success');
+														btn.text('Going');
+													}
+
+												};
+
+												var oForm = {
+													formId: formId,
+													doOnSuccess: doOnSuccess
+												};
+
+												var f = new JVForm(oForm);
+
+												form.find('.dropdown-item').click(function(){
+													console.log('click');
+													form.find('.isGoing').val( $(this).data('value'));
+													form.find('.btn-submit').trigger('click');
+												});
+											});
+                                        </script>
+
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-4 mb-3">
-                                        <a href="/admin/schedule/game/<?= $__uid ?>/attendance/remind/sms/<?= $user->id ?>" class="btn btn-primary btn-block">
-                                            Remind by SMS
-                                        </a>
+                                        <form id="form-remind-by-sms-<?= $key ?>" action="/admin/schedule/game/<?= $__uid ?>/attendance/remind/sms/<?= $user->id ?>" method="post" data-type="json" onsubmit="return false;" >
+                                            <button class="btn btn-primary btn-block" id="btn-submit">
+                                                Remind by SMS
+                                            </button>
+                                        </form>
+                                        <script>
+                                            $(document).ready(function(){
+                                                var oForm = {
+                                                    formId: 'form-remind-by-sms-' + <?= $key ?>
+                                                };
+                                                var f = new JVForm(oForm);
+                                            });
+                                        </script>
                                     </div>
                                     <div class="col-12 col-md-6 col-xl-4 mb-0">
-                                        <a href="/admin/schedule/game/<?= $__uid ?>/attendance/remind/email/<?= $user->id ?>" class="btn btn-primary btn-block">
-                                            Remind by Email
-                                        </a>
+                                        <form id="form-remind-by-email-<?= $key ?>" action="/admin/schedule/game/<?= $__uid ?>/attendance/remind/email/<?= $user->id ?>" method="post" data-type="json" onsubmit="return false;" >
+                                            <button class="btn btn-primary btn-block" id="btn-submit">
+                                                Remind by Email
+                                            </button>
+                                        </form>
+                                        <script>
+											$(document).ready(function(){
+												var oForm = {
+													formId: 'form-remind-by-email-' + <?= $key ?>
+												};
+												var f = new JVForm(oForm);
+											});
+                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -105,5 +212,3 @@ $__away = $__teams[1];
         </div>
     </div>
 </div>
-
-<?php include('view/admin/game-modal-attendance.php'); ?>
