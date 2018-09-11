@@ -37,6 +37,11 @@ class MailManager {
     private function setError($error){
         $this->error = $error;
     }
+    
+    private function setHtmlMessageFromText(){
+        $this->setHtmlMessage( preg_replace("/\r\n/", "<br>", $this->textMsg) ); //;
+        return $this;
+    }
 
     # public helpers
 
@@ -133,13 +138,45 @@ class MailManager {
         
         ";
 
-        $htmlMsg = $textMsg;
         return $this->addTo(Config::FLORIN_EMAIL)
             ->addTo(Config::MAIL_USERNAME)
             ->setFrom(Config::MAIL_USERNAME)
             ->setSubject($__subject)
             ->setTextMessage($textMsg)
-            ->setHtmlMessage( preg_replace("/\r\n/", "<br>", $htmlMsg) )
+            ->setHtmlMessageFromText()
+            ->send();
+    }
+
+    public function sendAttendanceReminder($game, $user){
+
+        $__uid = $game->uid;
+        $__date = $game->datetime->format('F d, Y');
+        $__time = $game->datetime->format('g:i A');
+        $__summary = $game->summary;
+        $__location = $game->location;
+        $__fieldSurface = Locations::getFieldSurface($__location);
+        $__firstName = $user->firstname;
+        $__emailTo = $user->email;
+
+        $__subject = Config::COMPANY_NAME . ' Update Attendance for ' . $__date . ' at ' . $__time;
+
+        $textMsg = "
+        
+        $__firstName,
+        
+        Please update your attendance for $__date at $__time
+        
+        $__summary at $__location ($__fieldSurface)
+        
+        http://www.tyrosfc.com/schedule/game/$__uid/attendance
+        
+        ";
+
+        return $this->addTo($__emailTo)
+            ->setFrom(Config::MAIL_USERNAME)
+            ->setSubject($__subject)
+            ->setTextMessage($textMsg)
+            ->setHtmlMessageFromText()
             ->send();
     }
 
