@@ -35,7 +35,7 @@
 		var oGame = {
 			elementId: 'game-container',
 			attendance: attendance,
-			totalLineups: 8,
+			totalLineups: 10,
 			lineups: lineups,
 			$__isAdminView: <?= $__isAdminView ? 'true' : 'false' ?>,
 			$__isPrintLayout: <?= $__isPrintLayout ? 'true' : 'false' ?>
