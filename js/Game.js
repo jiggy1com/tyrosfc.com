@@ -60,7 +60,8 @@ function Game(oConfig){
 			console.warn('no lineups');
 			for(var i=0; i<this.config.totalLineups;i++){
 				var oLineup = {
-					formation: '1x1x3x4x2',
+					// formation: '1x1x3x4x2',
+					formation: '1x1x2x1x1x2x1x2',
 					attendance: this.config.attendance,
 					starters: [],
 					subs: []
@@ -199,18 +200,31 @@ function Game(oConfig){
 		var self = this;
 		var lineupElements = $('.lineup');
 		
-		// sort subs by lastname
+		// sort subs list by gender first
 		this.config.lineups.forEach(function(obj, lineupIdx){
 			var subs = obj.subs;
 			subs.sort(function(a,b){
-				var keyA = a.firstname;
-				var keyB = b.firstname;
+				var keyA = a.gender + a.firstname;
+				var keyB = b.gender + b.firstname;
 				if(keyA < keyB) return -1;
 				if(keyA > keyB) return 1;
 				return 0;
 			});
 			self.config.lineups[lineupIdx].subs = subs;
 		});
+		
+		// sort subs by lastname
+		// this.config.lineups.forEach(function(obj, lineupIdx){
+		// 	var subs = obj.subs;
+		// 	subs.sort(function(a,b){
+		// 		var keyA = a.firstname;
+		// 		var keyB = b.firstname;
+		// 		if(keyA < keyB) return -1;
+		// 		if(keyA > keyB) return 1;
+		// 		return 0;
+		// 	});
+		// 	self.config.lineups[lineupIdx].subs = subs;
+		// });
 		
 		// build subs list
 		this.config.lineups.forEach(function(arr,lineupIdx){
@@ -224,7 +238,7 @@ function Game(oConfig){
 			arr.subs.forEach(function(sub,subIdx){
 				subTextClass = sub.gender === 'M' ? 'text-male' : sub.gender === 'F' ? 'text-female' : '';
 				subs += "<div class='col-6 pt-2 pb-2 mb-1 sub " + subTextClass + "' data-lineupidx='" + lineupIdx + "' data-subidx='"+subIdx+"'>";
-				subs += (subIdx+1) + ') ' + sub.firstname + ' ' + sub.lastname;
+				subs += /*(subIdx+1) + ') ' + */sub.firstname + ' ' + self.lastInitial(sub.lastname);
 				subs += "</div>";
 			});
 			$(lineupElements[lineupIdx]).find('.subs').append(subs);
@@ -255,7 +269,7 @@ function Game(oConfig){
 					player = self.config.lineups[lineupIdx].starters[playerIdx];
 					playerTextClass = player.gender === 'M' ? 'text-male' : player.gender === 'F' ? 'text-female' : '';
 					h += "<div class='col text-center pt-2 pb-2 mb-1 starter " + playerTextClass + "' data-lineupidx='" + lineupIdx + "' data-starteridx='" + playerIdx + "'>";
-					h += player.firstname + " " + player.lastname;
+					h += player.firstname + " " + self.lastInitial(player.lastname);
 					h += "</div>";
 					playerIdx++;
 				}
@@ -517,5 +531,10 @@ function Game(oConfig){
 	};
 	
 	// this.init();
+	
+	// helpers
+	this.lastInitial = function(lastName){
+		return lastName.charAt(0).toUpperCase() + '.';
+	}
 	
 };
