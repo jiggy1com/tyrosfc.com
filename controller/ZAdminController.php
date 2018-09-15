@@ -124,7 +124,7 @@ class ZAdminController extends ApplicationController {
             $q = $m->getRosterById($__rosterId);
 
             if(isset($q[0]) && !empty($q[0]->phone)){
-                $__smsMessage = "Please update your attendance at http://www.tyrosfc.com/schedule/game/$__uid/attendance";
+                $__smsMessage = "Please update your attendance at http://www.tyrosfc.com/schedule"; // /game/$__uid/attendance
                 $__num = $q[0]->phone;
                 $t = new TwilioAPI();
                 $t->setTo($__num)->setMessage($__smsMessage)->send();
@@ -177,7 +177,8 @@ class ZAdminController extends ApplicationController {
             return $this->setNextRoute('/login');
         }else{
             $m = new MySQLHelper();
-            $this->rc->roster = $m->getActiveRoster();
+            $this->rc->activeRoster = $m->getActiveRoster();
+            $this->rc->inActiveRoster = $m->getInActiveRoster();
             $this->view = 'admin/roster';
             return $this;
         }
@@ -197,6 +198,27 @@ class ZAdminController extends ApplicationController {
             return $this->setNextRoute('/login');
         }else{
             $this->view = 'admin/rosterEmail';
+            return $this;
+        }
+    }
+
+    public function rosterStatusUpdate(){
+        if(!$this->isAdmin()){
+            return $this->setNextRoute('/login');
+        }else{
+
+            $__id = $this->router->getVar('rosterId');
+            $__isActive = $this->router->getVar('isActive');
+
+            $m = new MySQLHelper();
+            $this->rc->success = $m->setRosterInActive($__id, $__isActive);
+
+            if($this->rc->success){
+                $this->rc->message = 'Active state successfully updated.';
+            }else{
+                $this->rc->message = 'An error occurred:' . $m->getError();
+            }
+//            $this->view = 'admin/rosterStatusUpdate';
             return $this;
         }
     }
