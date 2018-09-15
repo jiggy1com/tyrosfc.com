@@ -112,8 +112,8 @@
                                     <?= $__isGoingText ?>
                                 </button>
                                 <div class="dropdown-menu btn-block" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item text-success" href="javascript:void(0)" data-value="1">Going</a>
-                                    <a class="dropdown-item text-danger" href="javascript:void(0)" data-value="0">Not Going</a>
+                                    <a class="dropdown-item text-success p-3" href="javascript:void(0)" data-value="1">Going</a>
+                                    <a class="dropdown-item text-danger p-3" href="javascript:void(0)" data-value="0">Not Going</a>
                                 </div>
                             </div>
 
