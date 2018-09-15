@@ -35,6 +35,11 @@ class MySQLHelper  {
         return $this->mysql->setQuery($query)->runRead();
     }
 
+    public function setRosterInActive($id, $isActive){
+        $query = "update roster set isActive = " . $isActive . " where id = " . $id;
+        return $this->mysql->setQuery($query)->runUpdate();
+    }
+
     // ATTENDANCE
 
     public function getAttendance(){
