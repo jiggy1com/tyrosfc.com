@@ -48,6 +48,7 @@ class Routes {
         $this->routes['/admin/roster'] = ['ZAdminController', 'roster'];
         $this->routes['/admin/roster/sms/:id'] = ['ZAdminController', 'rosterSMS'];
         $this->routes['/admin/roster/email/:id'] = ['ZAdminController', 'rosterEmail'];
+        $this->routes['/admin/roster/status/update'] = ['ZAdminController', 'rosterStatusUpdate'];
 
         $this->routes['/admin/schedule'] = ['ZAdminController', 'schedule'];
         $this->routes['/admin/schedule/game/:uid/attendance'] = ['ZAdminController', 'game'];
