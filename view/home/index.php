@@ -47,6 +47,9 @@
                 <div class="card-body">
 
                     <ul>
+                        <li><span class="text-success">Resolves</span> Add Standings to the site.</li>
+                        <li><span class="text-success">Resolved</span> Add place next to team name, i.e. "(5th) Tyros", not to be confused with score i.e. (1) </li>
+                        <li><span class="text-success">Resolved</span> Add scores to the schedule</li>
                         <li><span class="text-success">Resolved</span> Time stamps on the schedule page are wrong.</li>
                         <li><span class="text-success">Resolved</span> No way to update password.</li>
                         <li><span class="text-success">Resolved</span> Redirect after login is not correct.</li>
@@ -83,7 +86,6 @@
                         <li>*PayPal and/or Venmo integration to allow players to send funds to Jared, our treasurer.</li>
                         <li>Track dues, for Jared</li>
                         <li>Create some type of message board or notification system to let players contact the team w/o having to know everyone's email/#</li>
-                        <li>Add scores to the schedule</li>
                         <li>Add highlights/lowlights to the schedule</li>
                     </ul>
 
