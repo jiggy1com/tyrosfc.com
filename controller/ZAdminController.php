@@ -46,7 +46,15 @@ class ZAdminController extends ApplicationController {
             return $this->setNextRoute('/login');
         }else{
             $s = new Schedule();
-            $this->rc->schedule = $s->getSchedule();
+            $__schedule = $s->getSchedule();
+
+            $this->rc->scheduleModel = [];
+
+            foreach($__schedule as $idx => $game){
+                $obj = new ScheduleModel(null, $idx, $game);
+                array_push($this->rc->scheduleModel, $obj);
+            }
+
             $this->view = 'admin/schedule';
             return $this;
         }
