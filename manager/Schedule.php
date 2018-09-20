@@ -79,6 +79,16 @@ class Schedule {
         return $ret;
     }
 
+    public static function getBackgroundClass($isCurrent){
+        $ret = '';
+        if($isCurrent){
+            $ret = 'bg-dark';
+        }else{
+            $ret = 'bg-light';
+        }
+        return $ret;
+    }
+
     public function getSchedule()
     {
         $res = $this->http->setUrl(self::SCHEDULE_ICS)->setMethod('get')->doRequest();
