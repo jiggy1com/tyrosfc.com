@@ -1,7 +1,7 @@
 <?php
 
 $__isAdminView = true;
-$__schedule = $GLOBALS['app']->rc->schedule;
+$__schedule = $GLOBALS['app']->rc->scheduleModel;
 $__now = new DateTime();
 
 ?>
