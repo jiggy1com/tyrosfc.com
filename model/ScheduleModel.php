@@ -30,6 +30,7 @@ class ScheduleModel {
     public $isGoingText;
 
     public $isCurrentGame;
+    public $bgClass;
 
     function __construct($rosterId=0, $idx=0, $data)
     {
@@ -57,7 +58,7 @@ class ScheduleModel {
         $this->week = $idx + 1;
         $this->gameUid = $data->uid;
 
-        $this->date = $data->datetime->format("F d, Y");
+        $this->date = $data->datetime->format("M d, Y");
         $this->time = $data->datetime->format('g:i A');
 
         $this->location = $data->location;
@@ -69,6 +70,7 @@ class ScheduleModel {
         $this->isGoingClass = Schedule::isGoingClass($this->isGoing);
 
         $this->isCurrentGame = $this->now->getTimestamp() < $data->datetime->getTimeStamp();
+        $this->bgClass = Schedule::getBackgroundClass( $this->isCurrentGame );
     }
 
     private function setRosterId($rosterId){
