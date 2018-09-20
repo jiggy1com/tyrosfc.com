@@ -6,6 +6,7 @@ class RC {
 
     public $results = [];
     public $schedule = [];
+    public $scheduleModel = [];
 
     public $success = false;
     public $message = '';
