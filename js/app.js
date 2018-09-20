@@ -80,7 +80,7 @@ var JVAlert = function(obj){
 
 var JVAjax = function(obj){
 	
-	console.log('JVAjax Constructor', obj);
+	// console.log('JVAjax Constructor', obj);
 	
 	this.url = obj.url;
 	this.method = obj.method;
@@ -108,7 +108,7 @@ var JVAjax = function(obj){
 		});
 	};
 	
-	console.log('JVAjax created:', this);
+	// console.log('JVAjax created:', this);
 	
 	// return {
 	// 	url: this.url,
@@ -219,7 +219,7 @@ var JVForm = function(obj){
 	this.redirect = ''; // where to go next
 	
 	this.init = function(){
-		console.log('init', this);
+		// console.log('init', this);
 		var self = this;
 		
 		// notify developer of issues
@@ -241,7 +241,7 @@ var JVForm = function(obj){
 			data: null
 		};
 		
-		console.log('oJVAjax pass to constructor', oJVAjax);
+		// console.log('oJVAjax pass to constructor', oJVAjax);
 		
 		this.JVAjax = new JVAjax(oJVAjax);
 		
@@ -268,7 +268,7 @@ var JVForm = function(obj){
 		// e.preventDefault();
 		// e.stopPropagation();
 		var self = this;
-		console.log('-=submit=-');
+		// console.log('-=submit=-');
 		self.submit();
 	};
 	
@@ -277,11 +277,11 @@ var JVForm = function(obj){
 		self.JVLoading.setLoading(true);
 		self.JVAlert.hideAlert();
 		
-		console.log('data to set', $(self.form).serializeArray());
+		// console.log('data to set', $(self.form).serializeArray());
 		
 		self.JVAjax.setData( $(self.form).serializeArray() );
 		var clickSubmit = self.JVAjax.submit();
-		console.log('clickSubmit', self.JVAjax);
+		// console.log('clickSubmit', self.JVAjax);
 		
 		clickSubmit.done(function(res){
 			// console.log('clickSubmit done', res);
