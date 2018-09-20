@@ -13,9 +13,9 @@
 <?php foreach($__schedule as $key => $obj): ?>
 
         <div class="card mb-5 week-<?= $obj->week ?>  <?= $obj->isCurrentGame ? 'current-game' : '' ?>">
-            <h1 class="card-header week <?= $obj->bgClass ?>">
+            <h3 class="card-header week <?= $obj->bgClass ?>">
                 Week <?= $obj->week ?>
-            </h1>
+            </h3>
             <div class="card-body">
 
                 <div class="row mt-3 mb-3">
@@ -379,7 +379,7 @@
 							}
 
 						} catch(e){
-                            console.error('e', e.message);
+//                            console.error('e', e.message);
 						}
 
 					}
