@@ -15,15 +15,45 @@ class ScheduleController extends ApplicationController
             return $this->setNextRoute('/login');
         } else {
 
-            $s = new Schedule();
-            $this->rc->schedule = $s->getSchedule();
+            $__rosterId = $this->cookies['id'];
 
-            $query = "select * from attendance where rosterId = " . $this->cookies['id'];
-            $this->rc->attendance = $this->mysql->setQuery($query)->runRead();
+            $s = new Schedule();
+            $__schedule = $s->getSchedule();
+
+            $m = new MySQLHelper();
+            $this->rc->attendance = $m->getAttendanceByRosterId($__rosterId);
+
+            $this->rc->scheduleModel = [];
+            foreach($__schedule as $idx => $game){
+                $obj = new ScheduleModel($__rosterId, $idx, $game);
+                array_push($this->rc->scheduleModel, $obj);
+            }
 
             $this->view = 'schedule/index';
             return $this;
         }
+    }
+
+    public function remoteSchedule(){
+
+        $curl = curl_init();
+
+        // Set some options - we are passing in a useragent too here
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => 'http://www.diablosoccer.org/sites/dasl/schedule/205779/DASL-Division-C',
+            CURLOPT_USERAGENT => 'Chrome'
+        ));
+
+        // Send the request & save response to $resp
+        $resp = curl_exec($curl);
+
+        // Close request to clear up some resources
+        curl_close($curl);
+
+        $this->rc->html = $resp;
+        $this->isAjax = true;
+        return $this;
     }
 
     public function gameAttendance()
