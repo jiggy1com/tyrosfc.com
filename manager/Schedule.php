@@ -45,6 +45,40 @@ class Schedule {
         return $ret;
     }
 
+    /*
+     * requires the boolean value returned from isGoing ^
+     */
+    public static function isGoingText($isGoing){
+        $ret = '';
+        if($isGoing === null){
+            $ret = 'Set Attendance';
+        }else if($isGoing === true){
+            $ret = 'Going';
+        }else if($isGoing === false){
+            $ret = 'Not Going';
+        }else{
+            $ret = 'isGoingText fucked up';
+        }
+        return $ret;
+    }
+
+    /*
+     * requires the boolean value returned from isGoing ^
+     */
+    public static function isGoingClass($isGoing){
+        $ret = '';
+        if($isGoing === null){
+            $ret = 'btn-primary';
+        }else if($isGoing === true){
+            $ret = 'btn-success';
+        }else if($isGoing === false){
+            $ret = 'btn-danger';
+        }else{
+            $ret = 'btn-warning';
+        }
+        return $ret;
+    }
+
     public function getSchedule()
     {
         $res = $this->http->setUrl(self::SCHEDULE_ICS)->setMethod('get')->doRequest();
@@ -191,8 +225,5 @@ class Schedule {
         }
         return $ret;
     }
-
-
-
 
 }
