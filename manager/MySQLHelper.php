@@ -63,6 +63,7 @@ class MySQLHelper  {
     }
 
     // ROSTER AND ATTENDANCE
+
     public function getRosterAttendanceByGameUid($uid){
 
         $subQuery = " select isgoing from attendance where uid = '$uid' and rosterid = roster.id ";
@@ -72,15 +73,6 @@ class MySQLHelper  {
         $query .= "WHERE isactive = 1  ";
         $query .= "ORDER BY isgoing desc, firstname";
 
-//        $query = "SELECT r.id, r.firstname, r.lastname, r.gender, ( ";
-//        $query .= "SELECT isgoing ";
-//        $query .= "FROM attendance ";
-//        $query .= "WHERE uid =  '$uid' ";
-//        $query .= "AND rosterid = r.id ";
-//        $query .= ") AS isgoing ";
-//        $query .= "FROM roster r ";
-//        $query .= "WHERE r.isactive = 1 ";
-//        $query .= "ORDER BY r.lastname";
         return $this->mysql->setQuery($query)->runRead();
     }
 
@@ -120,7 +112,17 @@ class MySQLHelper  {
         return $this->mysql->setQuery($query)->runRead();
     }
 
+    public function getAttendanceByRosterId($rosterId){
+        $query = "select * from attendance where rosterId = '" . $rosterId . "'";
+        return $this->mysql->setQuery($query)->runRead();
+    }
+
+    public function getUserAttendanceByGameUid($rosterId, $uid){
+
+    }
+
     // lineup
+
     public function getLineupByUid($__uid){
         $query = "select * from lineup where uid = '$__uid'";
         return $this->mysql->setQuery($query)->runRead();
