@@ -47,6 +47,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/schedule">Schedule</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/standings">Standings</a>
+                </li>
                 <?php if( !$GLOBALS['app']->isLoggedIn ): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Login</a>
