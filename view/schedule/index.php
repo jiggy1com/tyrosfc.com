@@ -1,6 +1,6 @@
 <?php
     $__isAdminView = false;
-    $__schedule = $GLOBALS['app']->rc->schedule;
+    $__schedule = $GLOBALS['app']->rc->scheduleModel;
     $__attendance = $GLOBALS['app']->rc->attendance;
     $__now = new DateTime();
 ?>
@@ -22,3 +22,10 @@
         </div>
     </div>
 </div>
+
+<?php
+# spacing for scrolling
+for($i=0;$i<20;$i++){
+    echo "<p>&nbsp;</p>";
+}
+?>
