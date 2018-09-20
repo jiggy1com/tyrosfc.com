@@ -18,8 +18,12 @@ class Routes {
         $this->routes['/schedule'] = ['ScheduleController', 'index'];
         $this->routes['/schedule/game/:uid/attendance'] = ['ScheduleController', 'gameAttendance'];
         $this->routes['/schedule/game/update-game-attendance'] = ['ScheduleController', 'updateGameAttendance'];
+        $this->routes['/schedule/remote'] = ['ScheduleController', 'remoteSchedule'];
         //$this->routes['/schedule/test'] = ['ScheduleController', 'test'];
         //$this->routes['/schedule/:id'] = ['ScheduleController', 'getScheduleById'];
+
+        // standings
+        $this->routes['/standings'] = ['StandingsController', 'index'];
 
         // games
 //        $this->routes['/game'] = ['GameController', 'index'];
