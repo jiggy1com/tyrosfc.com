@@ -51,3 +51,164 @@ img{
 .stats .card{
     box-shadow: 0 0 15px 5px #000
 }
+
+/* new schedule template */
+.schedule-game .bg-light,
+.schedule-game .bg-dark{
+    border: none;
+}
+
+.schedule-location-surface img{
+    display: inline;
+    position: relative;
+}
+
+.schedule-next-game{
+    font-size: 30px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+/* Extra Small devices (phones portrait) */
+@media(min-width: 0px){
+    .schedule-location-surface img{
+        height: 30px;
+        top: -6px;
+    }
+    .schedule-game .schedule-font{
+        font-size: 20px;
+    }
+    .schedule-game .schedule-font-xl{
+        font-size: 80px;
+    }
+    .schedule-next-game{
+        font-size: 20px;
+    }
+    .schedule-teams{
+        font-size: 14px;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    .schedule-location-surface img{
+        height: 30px;
+        top: -6px;
+    }
+    .schedule-game .schedule-font{
+        font-size: 20px;
+    }
+    .schedule-game .schedule-font-xl{
+        font-size: 110px;
+    }
+    .schedule-next-game{
+        font-size: 30px;
+    }
+    .schedule-teams{
+        font-size: 14px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    .schedule-location-surface img{
+        height: 30px;
+        top: -6px;
+    }
+    .schedule-game .schedule-font{
+        font-size: 20px;
+    }
+    .schedule-game .schedule-font-xl{
+        font-size: 110px;
+    }
+    .schedule-next-game{
+        font-size: 30px;
+    }
+    .schedule-teams{
+        font-size: 14px;
+    }
+}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    .schedule-location-surface img{
+        height: 30px;
+        top: -6px;
+    }
+    .schedule-game .schedule-font{
+        font-size: 20px;
+    }
+    .schedule-game .schedule-font-xl{
+        font-size: 110px;
+    }
+    .schedule-next-game{
+        font-size: 30px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    .schedule-location-surface img{
+        height: 30px;
+        top: -6px;
+    }
+    .schedule-game .schedule-font{
+        font-size: 20px;
+    }
+    .schedule-game .schedule-font-xl{
+        font-size: 140px;
+    }
+    .schedule-next-game{
+        font-size: 30px;
+    }
+}
+
+.schedule-game.bg-light,
+.schedule-game.bg-light .locationMap,
+.schedule-game.bg-light .score{
+    color: #eee !important;
+}
+
+.schedule-game.bg-info,
+.schedule-game.bg-info .locationMap,
+.schedule-game.bg-info .score{
+    color: #fff !important;
+}
+
+/* LIGHTBOX */
+.lightbox-container img{
+    cursor: pointer;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 10001;
+}
+.lightbox-overlay{
+    background-color: #000;
+    opacity: .8;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+}
+.lightbox-left-arrow{
+    cursor: pointer;
+    z-index: 10001;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translate(20px,-50%);
+}
+.lightbox-right-arrow{
+    cursor: pointer;
+    z-index: 10001;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translate(-20px,-50%);
+}
