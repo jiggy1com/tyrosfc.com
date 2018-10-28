@@ -60,8 +60,8 @@ function Game(oConfig){
 			console.warn('no lineups');
 			for(var i=0; i<this.config.totalLineups;i++){
 				var oLineup = {
-					// formation: '1x1x3x4x2',
-					formation: '1x1x2x1x1x2x1x2',
+					formation: '1x1x3x4x2',
+					// formation: '1x1x2x1x1x2x1x2',
 					attendance: this.config.attendance,
 					starters: [],
 					subs: []
@@ -115,6 +115,7 @@ function Game(oConfig){
 		
 		if(!duplicate){
 			this.renderFrame();
+			this.renderFormations();
 			this.renderSubs();
 			this.renderStarters();
 		}
@@ -175,7 +176,15 @@ function Game(oConfig){
 					h += "<div class='starters container-fluid'>";
 					h += "</div>";
 				h += "</div>";
-				h += "<div class='col-12 col-md-4'><h4>Subs</h4>";
+				h += "<div class='col-12 col-md-4'>";
+					
+					// formation
+					h += "<h4>Formation</h4>";
+					h += "<div class='formation'>";
+					h += "</div>";
+						
+					// subs
+					h += "<h4>Subs</h4>";
 					h += "<div class='container-fluid'>";
 						h += "<div class='subs row'>";
 						h += "</div>";
@@ -280,17 +289,56 @@ function Game(oConfig){
 		this.setupClicks();
 	};
 	
+	this.renderFormations = function(){
+		
+		var self = this;
+
+		var allFormations = {
+			'1x4x4x2': '4-4-2',
+			'1x1x3x4x2': 'Sweeper 4-4-2',
+			'1x3x5x2': '3-5-2',
+			'1x1x2x5x2': 'Sweeper 3-5-2',
+			'1x4x3x3': '4-3-3',
+			'1x1x3x3x3': 'Sweeper 4-3-3'
+		};
+		
+		var f = $('.formation');
+		f.each(function(lineupIdx){
+			var formation = self.config.lineups[lineupIdx].formation;
+			var hSelect = "<div class='form-group'>";
+				hSelect += "<select class='form-control select-formation' data-lineupidx='" + lineupIdx + "'>";
+				for(var key in allFormations){
+					selected = false;
+					selectedText = '';
+					if(key === formation){
+						selected = true;
+						selectedText = 'selected'
+					}
+					if(self.config.$__isAdminView || (!self.config.$__isAdminView && key === formation)){
+						hSelect += "<option value='" + key + "'" + (key === formation ? ' selected' : '') + ">"+ allFormations[key] + "</option>";
+					}
+				}
+				hSelect += "</select>";
+			hSelect += "</div>";
+			$(this).html(hSelect);
+		});
+	};
+	
 	this.setupClicks = function(){
 		var self = this;
 		if(this.config.$__isAdminView){
 			var sub = $('.sub');
 			var starter = $('.starter');
 			var btnClone = $('.btn-clone');
+			var btnFormation = $('.select-formation');
 			
+			// remove click events
 			sub.off('click');
 			starter.off('click');
 			btnClone.off('click');
+			btnFormation.off('change');
 			
+			// set click events
 			sub.click(function(){
 				self.handleClick($(this));
 			});
@@ -303,6 +351,10 @@ function Game(oConfig){
 			
 			btnClone.click(function(){
 				self.handleBtnClone($(this));
+			});
+			
+			btnFormation.change(function(){
+				self.handleFormationChange($(this));
 			});
 			
 			this.saveState();
@@ -479,6 +531,7 @@ function Game(oConfig){
 		});
 		this.config.lineups[lineupIdx+1].starters = newStarters;
 		this.config.lineups[lineupIdx+1].subs = newSubs;
+		this.config.lineups[lineupIdx+1].formation = this.config.lineups[lineupIdx].formation;
 		this.saveState();
 		this.render();
 	};
@@ -525,7 +578,14 @@ function Game(oConfig){
 		this.renderStarters();
 	};
 	
+	this.handleFormationChange = function(el){
+		var lineupIdx = el.data('lineupidx');
+		this.config.lineups[lineupIdx].formation = el.val();
+		this.render();
+	};
+	
 	this.render = function(){
+		this.renderFormations();
 		this.renderSubs();
 		this.renderStarters();
 	};
