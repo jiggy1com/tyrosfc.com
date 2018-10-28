@@ -168,9 +168,11 @@ class MailManager {
         
         $__summary at $__location ($__fieldSurface)
         
-        http://www.tyrosfc.com/schedule/game/$__uid/attendance
+        http://www.tyrosfc.com/schedule
         
         ";
+        // changing link from game to schedule page
+        // /game/$__uid/attendance
 
         return $this->addTo($__emailTo)
             ->setFrom(Config::MAIL_USERNAME)
