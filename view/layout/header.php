@@ -42,13 +42,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/schedule">Schedule</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/standings">Standings</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <?php if( !$GLOBALS['app']->isLoggedIn ): ?>
                     <li class="nav-item">
@@ -62,6 +56,20 @@
                             <a class="nav-link" href="/admin">Admin</a>
                         </li>
                     <?php endif; ?>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/schedule">Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/standings">Standings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/maps">Maps</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gallery">Gallery</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/profile/edit">Edit Profile</a>
                     </li>
@@ -69,6 +77,7 @@
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 <?php endif; ?>
+
             </ul>
         </div>
     </nav>
