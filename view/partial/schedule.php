@@ -12,139 +12,158 @@
 
 <?php foreach($__schedule as $key => $obj): ?>
 
-        <div class="card mb-5 week-<?= $obj->week ?>  <?= $obj->isCurrentGame ? 'current-game' : '' ?>">
-            <h3 class="card-header week <?= $obj->bgClass ?>">
-                Week <?= $obj->week ?>
-            </h3>
-            <div class="card-body">
+    <div class="card schedule-game mb-5 week-<?= $obj->week ?> <?= $obj->bgClass ?> <?= $obj->isCurrentGame ? 'current-game' : '' ?>">
+        <div class="card-body">
+            <div class="row align-items-center-off">
+                <div class="col-xs-12 col-sm-12 col-md-4 schedule-font-xl">
+                    <div class="text-center schedule-week week <?= $obj->bgClass ?>">
+                        <?= $obj->week ?>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 schedule-font">
 
-                <div class="row mt-3 mb-3">
-                    <div class="col-xs-12 col-sm-12 col-md-2">
-                        <div>
-                            <?= $obj->date; ?>
-                        </div>
-                        <div>
-                            <?= $obj->time; ?>
+                    <div class="schedule-date-time">
+                        <?= $obj->time; ?>
+                        <?= $obj->date; ?>
+                    </div>
+                    <div class="schedule-location-surface mb-5">
+                        <?= $obj->locationSurface ?>
+                        <img src="/img/schedule/icon-<?= $obj->locationSurfaceIcon ?>.png" height="50">
+                    </div>
+                    <div class="row text-center schedule-teams">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <?= $obj->homeTeam ?>
+                                </div>
+                                <div class="col">
+                                    vs
+                                </div>
+                                <div class="col">
+                                    <?= $obj->awayTeam ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col home">
+                                    <span class="score">
+                                    </span>
+                                </div>
+                                <div class="col">
+
+                                </div>
+                                <div class="col away">
+                                    <span class="score">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4">
-                        <span class="home">
-                            <span class="score">
-                            </span>
-                            <span class="place">
-                            </span>
-                            <span class="show-stats <?= $obj->homeClass ?>">
-                                <?= $obj->homeTeam ?>
-                            </span>
-                        </span>
-                        vs.
-                        <span class="away">
-                            <span class="score">
-                            </span>
-                            <span class="place">
-                            </span>
-                            <span class="show-stats <?= $obj->awayClass ?>">
-                                <?= $obj->awayTeam ?>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 pb-3">
-                        <a href="<?= $obj->locationMap ?>">
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 schedule-font">
+
+                    <div class="mb-5">
+                        <a href="<?= $obj->locationMap ?>" class="locationMap">
                             <?= $obj->location ?>
-                            (<?= $obj->locationSurface ?>)
                         </a>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-3">
 
-                        <?php if($obj->isCurrentGame): ?>
-                            <?php # Admin Features ?>
-                            <?php if($__isAdminView): ?>
-                                <a href="/admin/schedule/game/<?= $obj->gameUid ?>/attendance" class="btn btn-primary btn-block">
-                                    View Attendance
-                                </a>
-                                <a href="/admin/schedule/game/<?= $obj->gameUid ?>/lineup" class="btn btn-primary btn-block">
-                                    View Lineup
-                                </a>
-                            <?php endif; ?>
+                    <?php if($obj->isPassGame): ?>
+                        <button class="btn btn-primary disabled text-center btn-block">
+                            Game Passed
+                        </button>
+                    <?php else: ?>
 
-                            <?php # Frontend Features ?>
-                            <?php if(!$__isAdminView): ?>
-
-                                <form id="form-set-attendance-<?= $key ?>"
-                                      class="form-set-attendance"
-                                      action="/schedule/game/update-game-attendance"
-                                      method="post"
-                                      data-type="json"
-                                      onsubmit="return false;">
-
-                                    <div class="dropdown">
-                                        <button class="btn <?= $obj->isGoingClass ?> btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <?= $obj->isGoingText ?>
-                                        </button>
-                                        <div class="dropdown-menu btn-block" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item text-success p-3" href="javascript:void(0)" data-value="1">Going</a>
-                                            <a class="dropdown-item text-danger p-3" href="javascript:void(0)" data-value="0">Not Going</a>
-                                        </div>
-                                    </div>
-
-                                    <input type="hidden" name="uid" value="<?= $obj->gameUid ?>">
-                                    <input type="hidden" name="isGoing" value="" class="isGoing">
-                                    <button class="btn btn-primary btn-submit d-none">
-                                        Submit
-                                    </button>
-                                </form>
-                                <script>
-                                    $(document).ready(function(){
-                                        var formId = 'form-set-attendance-' + <?= $key ?>;
-                                        var form = $('#' + formId);
-                                        var btn = form.find('.btn').first();
-
-                                        var doOnSuccess = function(){
-
-                                            var v = form.find('.isGoing');
-
-                                            btn.removeClass('btn-primary')
-                                            .removeClass('btn-success')
-                                            .removeClass('btn-danger')
-                                            .removeClass('btn-warning');
-
-                                            if(v.val() === '0'){
-                                                btn.addClass('btn-danger');
-                                                btn.text('Not Going');
-                                            }else if(v.val() === '1'){
-                                                btn.addClass('btn-success');
-                                                btn.text('Going');
-                                            }
-
-                                        };
-
-                                        var oForm = {
-                                            formId: formId,
-                                            doOnSuccess: doOnSuccess
-                                        };
-
-                                        var f = new JVForm(oForm);
-
-                                        form.find('.dropdown-item').click(function(){
-                                            form.find('.isGoing').val( $(this).data('value'));
-                                            form.find('.btn-submit').trigger('click');
-                                        });
-                                    });
-                                </script>
-
-                            <?php endif; ?>
-
-                        <?php else:?>
-                            <button class="btn btn-primary disabled text-center btn-block">
-                                Game Passed
-                            </button>
+                        <?php # Admin Features ?>
+                        <?php if($__isAdminView): ?>
+                            <a href="/admin/schedule/game/<?= $obj->gameUid ?>/attendance" class="btn btn-primary btn-block">
+                                View Attendance
+                            </a>
+                            <a href="/admin/schedule/game/<?= $obj->gameUid ?>/lineup" class="btn btn-primary btn-block">
+                                View Lineup
+                            </a>
                         <?php endif; ?>
-                    </div>
+
+                        <?php # Frontend Features ?>
+                        <?php if(!$__isAdminView): ?>
+
+                            <form id="form-set-attendance-<?= $key ?>"
+                                  class="form-set-attendance"
+                                  action="/schedule/game/update-game-attendance"
+                                  method="post"
+                                  data-type="json"
+                                  onsubmit="return false;">
+
+                                <div class="dropdown">
+                                    <button class="btn <?= $obj->isGoingClass ?> btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <?= $obj->isGoingText ?>
+                                    </button>
+                                    <div class="dropdown-menu btn-block" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item text-success p-3" href="javascript:void(0)" data-value="1">Going</a>
+                                        <a class="dropdown-item text-danger p-3" href="javascript:void(0)" data-value="0">Not Going</a>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="uid" value="<?= $obj->gameUid ?>">
+                                <input type="hidden" name="isGoing" value="" class="isGoing">
+                                <button class="btn btn-primary btn-submit d-none">
+                                    Submit
+                                </button>
+                            </form>
+                            <script>
+                                $(document).ready(function(){
+                                    var formId = 'form-set-attendance-' + <?= $key ?>;
+                                    var form = $('#' + formId);
+                                    var btn = form.find('.btn').first();
+
+                                    var doOnSuccess = function(){
+
+                                        var v = form.find('.isGoing');
+
+                                        btn.removeClass('btn-primary')
+                                        .removeClass('btn-success')
+                                        .removeClass('btn-danger')
+                                        .removeClass('btn-warning');
+
+                                        if(v.val() === '0'){
+                                            btn.addClass('btn-danger');
+                                            btn.text('Not Going');
+                                        }else if(v.val() === '1'){
+                                            btn.addClass('btn-success');
+                                            btn.text('Going');
+                                        }
+
+                                    };
+
+                                    var oForm = {
+                                        formId: formId,
+                                        doOnSuccess: doOnSuccess
+                                    };
+
+                                    var f = new JVForm(oForm);
+
+                                    form.find('.dropdown-item').click(function(){
+                                        form.find('.isGoing').val( $(this).data('value'));
+                                        form.find('.btn-submit').trigger('click');
+                                    });
+                                });
+                            </script>
+
+                            <a href="/schedule/game/<?= $obj->gameUid ?>/attendance" class="btn btn-primary btn-block">
+                                Who's Going
+                            </a>
+
+                        <?php endif; ?>
+
+                    <?php endif; ?>
+
                 </div>
             </div>
         </div>
 
-    <?php endforeach; ?>
+    </div>
+
+<?php endforeach; ?>
 
 <script>
 
@@ -154,7 +173,7 @@
 		var currentGame = $('.current-game').first();
 		var week = currentGame.find('.week');
 		var offset = currentGame.offset();
-		week.text(week.text() + ' (Next Game)');
+		week.html(week.text() + "<div class='schedule-next-game'>Upcoming Game</div>");
 		$('body, html').scrollTop( offset.top - 20 );
     });
 </script>
