@@ -8,12 +8,12 @@ function Lightbox(oConfig){
 	this.container = oConfig.container || '.lightbox';
 	
 	// selectors
-	this.lightboxContainerSelector = '.lightbox-container';
-	this.overlaySelector = this.lightboxContainerSelector + ' .lightbox-overlay';
-	this.leftArrowSelector = this.lightboxContainerSelector + ' .lightbox-left-arrow';
-	this.rightArrowSelector = this.lightboxContainerSelector + ' .lightbox-right-arrow';
-	this.imgSelector = this.lightboxContainerSelector + ' img';
-	
+	this.lightboxContainerSelector 	= '.lightbox-container';
+	this.overlaySelector 			= this.lightboxContainerSelector + ' .lightbox-overlay';
+	this.leftArrowSelector 			= this.lightboxContainerSelector + ' .lightbox-left-arrow';
+	this.rightArrowSelector 		= this.lightboxContainerSelector + ' .lightbox-right-arrow';
+	this.imgSelector 				= this.lightboxContainerSelector + ' img';
+
 	// images
 	this.imageList = [];
 	this.imageListIdx = 0;
@@ -34,7 +34,6 @@ function Lightbox(oConfig){
 	};
 	
 	this.handleClick = function(e){
-		console.log('handleClick', arguments);
 		var el = this.imageList[this.imageListIdx];
 		this.image = $(el).attr('src');
 		this.appendLightbox();
@@ -106,14 +105,13 @@ function Lightbox(oConfig){
 	
 	this.setupKeyboardHandlers = function(){
 		var self = this;
-		window.addEventListener('keyup', self.keyboardHandler, false);
+		window.addEventListener('keyup', self.keyboardHandler.bind(this), false);
 	};
 	
 	this.keyboardHandler = function(e){
-		console.log('keyboardHandler');
 		var self = this;
 		if(e.keyCode === 37){
-			$(self.leftArrowSelector).trigger('click');
+			$(this.leftArrowSelector).trigger('click');
 		}
 		if(e.keyCode === 39){
 			$(self.rightArrowSelector).trigger('click');
