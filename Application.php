@@ -1,5 +1,8 @@
 <?php
 
+// aws
+include_once('thirdparty/aws/aws-autoloader.php');
+
 // phpmailer
 include_once('phpmailer/PHPMailerAutoload.php');
 
