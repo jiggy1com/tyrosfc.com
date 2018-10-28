@@ -91,6 +91,29 @@
 
                     <p>* Priority</p>
 
+                    <h1>Scale It</h1>
+                    <ul>
+                        <li>add more roles: superAdmin, admin, limitedAdmin, user</li>
+                        <li>add sites</li>
+                        <li>get site from domain</li>
+                        <li>crud roster</li>
+                        <li>add image to profile</li>
+                        <li>crud maps manually</li>
+                        <li>crud schedule manually</li>
+                        <li>
+                            crud galleries
+                            <ul>
+                                <li>/teams/:team/:galleryid</li>
+                            </ul>
+                        </li>
+                        <li>crud sites</li>
+                        <li>crud standings</li>
+                        <li>import schedule & map to our data structure</li>
+                        <li>import standings & map to our data structure</li>
+                        <li>need to setup email credentials per admin</li>
+                        <li>consider forcing users to create own Twilio account and provide API key for sending text messages</li>
+                    </ul>
+
                 </div>
             </div>
         </div>
