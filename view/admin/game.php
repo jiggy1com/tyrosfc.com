@@ -59,9 +59,9 @@ $__away = $__teams[1];
                              data-uid-<?= $__uid ?>>
 
                             <div class="col-12 col-md-2 mb-3">
-                                <?php if($__isGoing === '0'): ?>
+                                <?php if($__isGoing === false): ?>
                                     <span class="text-danger">Not Going</span>
-                                <?php elseif($__isGoing === '1'): ?>
+                                <?php elseif($__isGoing === true): ?>
                                     <span class="text-success">Going</span>
                                 <?php else: ?>
                                     <span class="text-warning">Unknown</span>
