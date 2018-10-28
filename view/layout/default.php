@@ -23,6 +23,7 @@ $__CACHEBUSTER = $__LAYOUT_DATE->format('mdYhm');
 
     <script src="/js/Lineup.js?cachebuster=<?= $__CACHEBUSTER ?>"></script>
     <script src="/js/Game.js?<?= $__CACHEBUSTER ?>"></script>
+    <script src="/js/Lightbox.js"></script>
 </head>
 <body>
 
@@ -30,7 +31,7 @@ $__CACHEBUSTER = $__LAYOUT_DATE->format('mdYhm');
 <?php include('./view/layout/interior.php'); ?>
 <?php include('./view/layout/footer.php'); ?>
 
-<?php if($_SERVER['REMOTE_ADDR'] === '216.239.124.44' || $_SERVER['REMOTE_ADDR'] === '127.0.0.1'):?>
+<?php if($_SERVER['REMOTE_ADDR'] === '216.239.124.44' || $_SERVER['REMOTE_ADDR'] === '127.0.0.1' || $_SERVER['REMOTE_ADDR'] === '73.71.89.64'):?>
 
 <div class="container-fluid d-none d-lg-block d-md-block d-xl-block">
     <div class="row">
