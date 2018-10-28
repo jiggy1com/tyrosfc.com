@@ -15,6 +15,7 @@ class ScheduleController extends ApplicationController
             return $this->setNextRoute('/login');
         } else {
 
+            $__foundIsCurrentGame = false;
             $__rosterId = $this->cookies['id'];
 
             $s = new Schedule();
