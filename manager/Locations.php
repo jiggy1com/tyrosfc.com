@@ -6,27 +6,40 @@ class Locations {
     const GRASS = "Grass";
     const UNKNOWN = "Unknown Playing Surface, doh!";
 
+    public $fields = [];
+    public $list = [];
+
     function __construct()
     {
-
+        array_push($this->fields, 'Rancho San Ramon Community Park');
+        array_push($this->fields, 'Central Park (Iron Horse Middle School)');
+        array_push($this->fields, 'Sycamore Valley Park');
+        array_push($this->fields, 'Tiffany Roberts');
+        array_push($this->fields, 'Osage Park');
+        asort($this->fields);
     }
 
     public static function getGoogleMapLink($location){
 
         $ret = "";
 
-        $arrLocation = explode(' - ', $location);
-        $strLocation = $arrLocation[0];
-        $strFieldNumber = $arrLocation[1];
+        if( strpos($location, ' - ') !== FALSE){
+            $arrLocation = explode(' - ', $location);
+            $strLocation = $arrLocation[0];
+            //$strFieldNumber = $arrLocation[1];
+        }else{
+            $strLocation = $location;
+        }
 
-        $pattern = "/[^0-9]/";
-        $replace = "";
-        $fieldNumber = preg_replace($pattern, $replace, $strFieldNumber);
+        // $pattern = "/[^0-9]/";
+        // $replace = "";
+        // $fieldNumber = preg_replace($pattern, $replace, $strFieldNumber);
 
         switch($strLocation){
 
             case "Rancho San Ramon Community Park":
-                $ret = 'https://www.google.com/maps?q=1998+Rancho+Park+Loop+San+Ramon,+CA+94582&entry=gmail&source=g';
+                $ret = 'https://www.google.com/maps/place/1998+Rancho+Park+Loop,+San+Ramon,+CA+94582/@37.7494621,-121.9204398,18.03z/data=!4m5!3m4!1s0x808fedc166b8ecef:0xb6b57821f441de68!8m2!3d37.7494627!4d-121.9195772';
+//                $ret = 'https://www.google.com/maps?q=1998+Rancho+Park+Loop+San+Ramon,+CA+94582&entry=gmail&source=g';
                 break;
 
             case "Central Park (Iron Horse Middle School)":
@@ -107,6 +120,14 @@ class Locations {
         }
 
         return $ret;
+    }
+
+    public static function getFieldSurfaceIcon($surface){
+        return strpos($surface, 'Grass') !== FALSE ? 'grass' : 'turf';
+    }
+
+    public function getFields(){
+        return $this->fields;
     }
 
 }
