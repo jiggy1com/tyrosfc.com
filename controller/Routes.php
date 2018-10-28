@@ -14,6 +14,9 @@ class Routes {
         // home page
         $this->routes['/'] = ['HomeController', 'index'];
 
+        // test image resize
+        $this->routes['/test/imageresize'] = ['TestController', 'handleImageResize'];
+
         // schedule
         $this->routes['/schedule'] = ['ScheduleController', 'index'];
         $this->routes['/schedule/game/:uid/attendance'] = ['ScheduleController', 'gameAttendance'];
@@ -24,6 +27,14 @@ class Routes {
 
         // standings
         $this->routes['/standings'] = ['StandingsController', 'index'];
+
+        // maps
+        $this->routes['/maps'] = ['MapsController', 'index'];
+
+        // gallery
+        $this->routes['/gallery'] = ['GalleryController', 'index'];
+        $this->routes['/gallery/:gallery'] = ['GalleryController', 'gallery'];
+        $this->routes['/gallery/:gallery/:img'] = ['GalleryController', 'img'];
 
         // games
 //        $this->routes['/game'] = ['GameController', 'index'];
@@ -71,36 +82,14 @@ class Routes {
         $this->routes['/admin/sms'] = ['ZAdminController', 'sms'];
         $this->routes['/admin/sms/send'] = ['ZAdminController', 'smsSend'];
 
+        #
+        # REFACTORED ROUTES
+        #
 
 
 
 
-        // admin proposed routes (need to implement)
-        /*
-        $this->routes['/admin/test'] = ['ZAdminController', 'test'];
 
-        $this->routes['/admin/schedule/game/:uid'] = ['ZAdminController', 'game'];
-        $this->routes['/admin/schedule/game/updateAttendance'] = ['ZAdminController', 'updateAttendance'];
-        $this->routes['/admin/schedule/game/updateLineup'] = ['ZAdminController', 'updateLineup'];
-
-
-        $this->routes['/admin/mail/send'] = ['ZAdminController', 'schedule'];
-        $this->routes['/admin/mail/save'] = ['ZAdminController', 'schedule'];
-        $this->routes['/admin/mail/update'] = ['ZAdminController', 'schedule'];
-        $this->routes['/admin/mail/edit/:id'] = ['ZAdminController', 'schedule'];
-
-        $this->routes['/admin/sms'] = ['ZAdminController', 'schedule'];
-        $this->routes['/admin/sms/send'] = ['ZAdminController', 'schedule'];
-        $this->routes['/admin/sms/save'] = ['ZAdminController', 'schedule'];
-        $this->routes['/admin/sms/update'] = ['ZAdminController', 'schedule'];
-        $this->routes['/admin/sms/edit/:id'] = ['ZAdminController', 'schedule'];
-
-        $this->routes['/twilio/test'] = ['TwilioController', 'test'];
-        */
-
-        // testing router
-//        $this->routes['/long/ass/route/:id'] = ['ScheduleController', 'test1'];
-//        $this->routes['/long/:routeParam1/route/:routeParam2'] = ['ScheduleController', 'test2'];
     }
 
     public function getRoutes(){
