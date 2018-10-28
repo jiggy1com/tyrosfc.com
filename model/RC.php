@@ -7,6 +7,9 @@ class RC {
     public $results = [];
     public $schedule = [];
     public $scheduleModel = [];
+    public $locations = [];
+    public $mapsList = [];
+    public $galleryList = [];
 
     public $success = false;
     public $message = '';
