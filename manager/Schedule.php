@@ -79,10 +79,12 @@ class Schedule {
         return $ret;
     }
 
+
+
     public static function getBackgroundClass($isCurrent){
         $ret = '';
         if($isCurrent){
-            $ret = 'bg-dark';
+            $ret = 'bg-success';
         }else{
             $ret = 'bg-light';
         }
