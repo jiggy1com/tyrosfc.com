@@ -31,6 +31,7 @@ function Lightbox(oConfig){
 				cursor: 'pointer'
 			});
 		}.bind(this));
+		$(window).on('resize', self.setImageDimensions.bind(this));
 	};
 	
 	this.handleClick = function(e){
@@ -55,6 +56,7 @@ function Lightbox(oConfig){
 		this.appendImage();
 		this.setupArrowClicks();
 		this.setupKeyboardHandlers();
+		this.renderCurrentImage();
 	};
 	
 	this.appendLeftArrow = function(){
@@ -72,16 +74,20 @@ function Lightbox(oConfig){
 		$(this.lightboxContainerSelector).append(img);
 		
 		setTimeout(function(){
-			var windowWidth = window.innerWidth;
-			var leftArrowWidth = $(this.leftArrowSelector).width();
-			var rightArrowWidth = $(this.rightArrowSelector).width();
-			var maxWidth = windowWidth - leftArrowWidth - rightArrowWidth - 80; // 40 = 20px movement from edge of arrows
-			$(this.lightboxContainerSelector).find('img').css({
-				maxWidth: maxWidth,
-				width: maxWidth
-			});
+			this.setImageDimensions();
 		}.bind(this),1);
 		
+	};
+
+	this.setImageDimensions = function(){
+        var windowWidth = window.innerWidth;
+        var leftArrowWidth = $(this.leftArrowSelector).width();
+        var rightArrowWidth = $(this.rightArrowSelector).width();
+        var maxWidth = windowWidth - leftArrowWidth - rightArrowWidth - 80; // 40 = 20px movement from edge of arrows
+		$(this.lightboxContainerSelector).find('img').css({
+            maxWidth: maxWidth,
+            width: maxWidth
+        });
 	};
 	
 	this.setupArrowClicks = function(){
@@ -120,7 +126,7 @@ function Lightbox(oConfig){
 	
 	this.renderCurrentImage = function(){
 		var el = $( this.imageList[this.imageListIdx]) ;
-		$(this.imgSelector).attr('src', el.attr('src'));
+		$(this.imgSelector).attr('src', el.attr('src').replace('/fit-in/400x400', '/fit-in/1000x1000'));
 		$('html, body').animate({
 			scrollTop: el.offset().top
 		});
