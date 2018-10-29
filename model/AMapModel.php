@@ -3,7 +3,7 @@
 class AMapModel {
 
     const MAP_IFRAME_PREFIX = 'https://www.google.com/maps/embed/v1/view?center=';
-    const MAP_API_KEY = 'AIzaSyBXnbVhEItuMDjbPsVa-OU1lRy3PFLe_Lk';
+    const MAP_API_KEY = '';
     const MAP_ZOOM = 15;
 
     public $locationName;
