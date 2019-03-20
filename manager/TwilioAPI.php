@@ -5,9 +5,9 @@ require $dir;
 
 class TwilioAPI {
 
-    const ACCOUNT_SID   = 'ACde8f13d491aa452067d22b656e7082e8';
-    const AUTH_TOKEN    = 'a02deab8a41126936dcb1f7cab444323';
-    const FROM          = '+19253930308';
+    const ACCOUNT_SID   = '';
+    const AUTH_TOKEN    = '';
+    const FROM          = '';
 
     // private
     private $twilio;
